@@ -5,15 +5,74 @@
    <title>初めてのReact</title>
  </head>
  <body>
-  <div id="container"></div>
+  
+  <div class="page-header" >
+   <h1>ローカルチャットルーム</h1>
+   <div id="container"></div>
+   
+   <link href="https://cdn.jsdelivr.net/bootswatch/3.3.7/yeti/bootsrap.min.css" rel="stylesheet">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+   <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+   
   <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
   <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script> <!-- Babelの部分-->
   <script type="text/babel">
-   ReactDOM.render(
-     <h1>Hello,world!</h1>,
-     document.getElementById('container')
-     );
-    </script>
+   var CommentList = React.createClass({
+     render: function(){
+       var comments = this.props.comments.map(function(comment,index){
+        return <li className="list-groupe-item" key={index}>{comment}</li>;
+        });
+        return(
+           <ul className=list-group">{comments}</ul>
+       );
+     }
+ });
+ var CommentApp = React.createclass({
+   getInitialState: function(){
+     return{
+       comments:[],
+        inputValue:''
+        }
+      },
+     handleSubmit:function(e){
+      e.preventDefault();
+       var comment = this.state.inputValue;
+       this.setState({
+        comments: this.state.comments.concat(comment),
+        inputValue:''
+        })
+     },
+     handleChange: function(e) {
+       this.setState({
+          inputValue: e.target.value
+         });
+       },
+       render: function(){
+         this.setState({
+           inputValue: e.target.value
+         });
+        },
+        render: function(){
+         return(
+          <div>
+            <form
+              className="comment-form"
+               onSubmit={this.handleSubmit}>
+               <input
+                type="text"
+                value={this.state.inputValue}
+                onChange={this.handleChange} />
+               <input type="submit" value="add" />
+              </form>
+            <CommentList comments={this.state.comments} />
+           </div>
+         );
+        }
+      });
+      
+      ReactDOM.render(<CommentApp />,document.getElementById('container'));
+   </script>
    </body>
   </html>
+   
